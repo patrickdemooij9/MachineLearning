@@ -3,6 +3,7 @@ const upload = () => {
     const image = document.querySelector('.js-image-preview');
     const fileInput = document.querySelector('.js-upload-file');
     const uploadBtn = document.querySelector('.js-upload');
+    const filename = document.querySelector('.js-filename');
     const postUrl = '';
 
     uploadBtn.setAttribute('disabled', true)
@@ -29,6 +30,7 @@ const upload = () => {
                         if(res.accepted) {
                             image.src = evt.target.result;
                             uploadBtn.removeAttribute('disabled', true)
+                            filename.innerHTML = 'Screen Shot 2017-07-29 at 15.54.25.png';
                         } else {
                             image.classList.add('not-accepted');
                         }
