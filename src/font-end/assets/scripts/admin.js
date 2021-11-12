@@ -1,6 +1,6 @@
 const admin = () => {
     // const getUrl = 'https://github.com/patrickdemooij9/MachineLearning/blob/front-end/src/font-end/assets/data/images.json';
-    const getUrl = './assets/data/images.json';
+    const getUrl = 'https://localhost:7093/image/GetPendingItems';
     const jsPendingImages = document.querySelector('.js-pending-images');
 
     jsPendingImages.innerHTML = null;
@@ -11,7 +11,7 @@ const admin = () => {
         
 
         console.log(JSON.parse(this.response).images)
-        JSON.parse(this.response).images.forEach(r => {
+        JSON.parse(this.response).forEach(r => {
             const str = document.createElement("div").innerHTML=`
             <div class="pending-image" id="${r.id}">
                 <figure class="image is-128x128">
@@ -32,7 +32,7 @@ const admin = () => {
     xhttpGet.send();
 }
 
-const urlPost = '';
+const urlPost = 'https://localhost:7093/image/LabelItem';
 
 const ok = (e) => {
     const wrapper = e.target.parentNode.closest('.pending-image')
@@ -40,11 +40,9 @@ const ok = (e) => {
 
     const img = wrapper.querySelector('img');
 
-    const data = {
-        image: img.getAttribute('src'),
-        id: parseInt(wrapper.id),
-        accepted: true,
-    }
+	var data = new FormData()
+	data.append('image', img.getAttribute('src'));
+	data.append('accepted', true);
 
     isFetchAccepted(data)
 }
@@ -53,11 +51,9 @@ const notOk = (e) => {
     console.log('notOk: ', wrapper)
     const img = wrapper.querySelector('img');
 
-    const data = {
-        image: img.getAttribute('src'),
-        id: parseInt(wrapper.id),
-        accepted: false,
-    }
+    var data = new FormData()
+	data.append('image', img.getAttribute('src'));
+	data.append('accepted', false);
 
     isFetchAccepted(data)
 }
@@ -65,8 +61,8 @@ const notOk = (e) => {
 const isFetchAccepted = (data) => {
     console.log(data)
 
-    fetch(urlPost, {method: 'post', body: JSON.stringify(data)})
-    admin();
+    fetch(urlPost, {method: 'post', body: data})
+	.then((res) => admin());
 }
 
 admin();

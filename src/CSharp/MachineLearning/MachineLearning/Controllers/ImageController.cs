@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.ML;
 using Microsoft.ML.Data;
+using Newtonsoft.Json;
 
 namespace MachineLearning.Controllers
 {
@@ -25,6 +26,8 @@ namespace MachineLearning.Controllers
             // Load trained model
             ITransformer trainedModel = mlContext.Model.Load("model.zip", out modelSchema);
 
+            var label = "";
+
             foreach (var formFile in Request.Form.Files)
             {
                 if (formFile.Length > 0)
@@ -36,6 +39,7 @@ namespace MachineLearning.Controllers
                         await formFile.CopyToAsync(stream);
                     }
                     var prediction = ClassifySingleImage(mlContext, trainedModel, filePath);
+                    label = prediction.PredictedLabelValue;
                     if (prediction.Score.Max() <= Threshold)
                     {
                         var pendingPath = Path.Combine(Environment.CurrentDirectory, "pending");
@@ -54,7 +58,7 @@ namespace MachineLearning.Controllers
                 }
             }
 
-            return Ok();
+            return Ok(new ImageResponse { Tags = new[] { label } });
         }
 
         [HttpGet]
@@ -65,9 +69,9 @@ namespace MachineLearning.Controllers
             if (!Directory.Exists(pendingPath))
                 Directory.CreateDirectory(pendingPath);
 
-            foreach(var directory in Directory.GetDirectories(pendingPath))
+            foreach (var directory in Directory.GetDirectories(pendingPath))
             {
-                foreach(var file in Directory.GetFiles(directory))
+                foreach (var file in Directory.GetFiles(directory))
                 {
                     pendingItems.Add(new PendingItem
                     {
@@ -77,20 +81,20 @@ namespace MachineLearning.Controllers
                     });
                 }
             }
-            return Ok(pendingItems);
+            return Ok(pendingItems.ToArray());
         }
 
         [HttpPost]
-        public IActionResult LabelItem(string imageId, string label)
+        public IActionResult LabelItem(ImagePost model)
         {
-            if (!System.IO.File.Exists(imageId))
+            if (!System.IO.File.Exists(model.Image))
                 return BadRequest();
 
-            var labelPath = Path.Combine(_dataPath, label);
+            var labelPath = Path.Combine(_dataPath, model.Accepted ? "Bird" : "Adidas");
             if (!Directory.Exists(labelPath))
                 Directory.CreateDirectory(labelPath);
 
-            System.IO.File.Move(imageId, Path.Combine(labelPath, Path.GetFileName(imageId)));
+            System.IO.File.Move(model.Image, Path.Combine(labelPath, Path.GetFileName(model.Image)));
 
             return Ok();
         }
@@ -222,6 +226,20 @@ namespace MachineLearning.Controllers
             public string Id { get; set; }
             public string Url { get; set; }
             public string Label { get; set; }
+        }
+
+        public class ImageResponse
+        {
+            [JsonProperty("tags")]
+            public string[] Tags { get; set; }
+        }
+
+        public class ImagePost
+        {
+            [JsonProperty("accepted")]
+            public bool Accepted { get; set; }
+            [JsonProperty("image")]
+            public string Image { get; set; }
         }
     }
 }

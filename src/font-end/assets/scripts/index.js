@@ -37,7 +37,8 @@ const upload = () => {
                     fetch(postUrl, { 
                         method: 'POST',
                         body: data
-                    }).then((res) => {
+					}).then((res) => res.json())
+                    .then((res) => {
                         const hasNotAllowed = res.tags.some(item => notAllowed.includes(item));
 
                         if(!hasNotAllowed) {
@@ -46,6 +47,7 @@ const upload = () => {
                             filename.innerHTML = 'Screen Shot 2017-07-29 at 15.54.25.png';
                         } else {
                             image.classList.add('not-accepted');
+							image.src = evt.target.result;
                         }
                     })
                 }
