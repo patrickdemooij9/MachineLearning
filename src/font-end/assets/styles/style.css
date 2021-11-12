@@ -1,0 +1,15 @@
+body {
+    padding-top: 100px;
+}
+
+.title--upload {
+    margin-bottom: 20px;
+}
+
+.file-label {
+    width: 100%;
+}
+
+.not-accepted {
+    filter: blur(20px);
+}
