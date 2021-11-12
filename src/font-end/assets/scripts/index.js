@@ -20,14 +20,16 @@ const upload = () => {
             reader.onload = function (evt) {
                 if (evt.target.readyState == FileReader.DONE) {
                     const imageSrc = evt.target.result;
-                    console.log(evt.target.result)
+                    console.log(evt.target.result);
+
                     fetch(postUrl, { 
                         method: 'POST',
                         body: {
                             image: imageSrc,
                         }
                     }).then((res) => {
-                        if(res.accepted) {
+                        const debug = true;
+                        if(res.accepted || debug) {
                             image.src = evt.target.result;
                             uploadBtn.removeAttribute('disabled', true)
                             filename.innerHTML = 'Screen Shot 2017-07-29 at 15.54.25.png';
