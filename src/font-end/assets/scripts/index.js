@@ -28,8 +28,7 @@ const upload = () => {
                             image: imageSrc,
                         }
                     }).then((res) => {
-                        const debug = true;
-                        if(res.accepted || debug) {
+                        if(res.accepted) {
                             image.src = evt.target.result;
                             uploadBtn.removeAttribute('disabled', true)
                             filename.innerHTML = 'Screen Shot 2017-07-29 at 15.54.25.png';
