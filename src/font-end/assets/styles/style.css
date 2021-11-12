@@ -1,0 +1,37 @@
+body {
+    padding-top: 100px;
+}
+
+.title--upload {
+    margin-bottom: 20px;
+}
+
+.file-label {
+    width: 100%;
+}
+
+.not-accepted {
+    filter: blur(20px);
+}
+
+.pending-images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+.pending-image .image {
+    margin-bottom: 0.5rem;
+}
+.image-controls {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.25rem;
+}
+.image-controls button {
+    cursor: pointer;
+}
+.controls {
+    display: flex;
+    justify-content: flex-end;
+}

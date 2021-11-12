@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload</title>
+
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="./assets/styles/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="columns column">
+          <h1 class="title title--upload">Upload</h1>
+        </div>
+        <div class="columns">
+            <div class="column is-6">
+                <img class="js-image-preview" src="./assets/images/placeholder.png" alt="">
+            </div>
+            <div class="column is-6">
+                <div class="card">
+                    <div class="card-content">
+                      <div class="content">
+                        <form class="js-upload-form" action="" method="post">
+                            <div class="field is-grouped">
+                                <div class="control">
+                                    <label class="file-label">
+                                        <input class="file-input js-upload-file" type="file" name="upload_image">
+                                        <span class="file-cta">
+                                            <span class="file-icon">
+                                            <i class="fas fa-upload"></i>
+                                            </span>
+                                            <span class="file-label">
+                                            Choose a file…
+                                            </span>
+                                        </span>
+                                        <span class="file-name js-filename">
+                                            Image name...
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="control">
+                                    <button type="submit" class="button is-link js-upload">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                        <br>
+                        <a href="./panel">Admin</a>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <script src="./assets/scripts/index.js"></script>
+</body>
+</html>
