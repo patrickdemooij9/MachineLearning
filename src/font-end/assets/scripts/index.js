@@ -4,7 +4,7 @@ const upload = () => {
     const fileInput = document.querySelector('.js-upload-file');
     const uploadBtn = document.querySelector('.js-upload');
     const filename = document.querySelector('.js-filename');
-    const postUrl = '';
+    const postUrl = 'https://localhost:7093/image/TestImage';
 
     uploadBtn.setAttribute('disabled', true)
 
@@ -21,12 +21,13 @@ const upload = () => {
                 if (evt.target.readyState == FileReader.DONE) {
                     const imageSrc = evt.target.result;
                     console.log(evt.target.result);
+					
+					var data = new FormData()
+					data.append('file', file)
 
                     fetch(postUrl, { 
                         method: 'POST',
-                        body: {
-                            image: imageSrc,
-                        }
+                        body: data
                     }).then((res) => {
                         if(res.accepted) {
                             image.src = evt.target.result;

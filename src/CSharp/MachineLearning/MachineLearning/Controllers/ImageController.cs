@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.ML;
 using Microsoft.ML.Data;
 
 namespace MachineLearning.Controllers
 {
     [Route("[controller]/[action]")]
+    [EnableCors]
     public class ImageController : Controller
     {
         private static readonly string _dataPath = Path.Combine(Environment.CurrentDirectory, "data");
