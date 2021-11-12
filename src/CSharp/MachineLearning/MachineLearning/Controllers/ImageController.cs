@@ -98,6 +98,7 @@ namespace MachineLearning.Controllers
         {
             var mlContext = new MLContext();
 
+            var test = GetImagesForTraining().GroupBy(it => it.Label).ToList();
             var data = mlContext.Data.LoadFromEnumerable(GetImagesForTraining());
             var model = GenerateModel(mlContext, data);
             mlContext.Model.Save(model, data.Schema, "model.zip");
