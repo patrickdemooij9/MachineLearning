@@ -3,7 +3,8 @@ const admin = () => {
     const getUrl = './assets/data/images.json';
     const jsPendingImages = document.querySelector('.js-pending-images');
 
-    
+    jsPendingImages.innerHTML = null;
+
     var xhttpGet = new XMLHttpRequest();
     xhttpGet.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -29,39 +30,43 @@ const admin = () => {
     };
     xhttpGet.open("GET", getUrl, true);
     xhttpGet.send();
-
-    
-/*
-    fetch(getUrl, {mode: 'cors'})
-    .then(response => response.json())
-    .then(data => {
-        data.images.forEach(r => {
-            jsPendingImages.innerHTML = `
-            <div class="pending-image" id="${r.id}">
-                <figure class="image is-128x128">
-                    <img src="${r.src}" alt=""/>
-                </figure>
-                <div class="image-controls">
-                    <button class="button js-is-notok is-small is-danger is-outlined notok">x</button>
-                    <button class="button js-is-ok is-small is-success is-outlined ok">v</button>
-                </div>
-            </div>
-            `
-        })
-    });
-
-*/
-
 }
+
+const urlPost = '';
 
 const ok = (e) => {
     const wrapper = e.target.parentNode.closest('.pending-image')
+    console.log('ok: ', wrapper);
 
-    console.log('ok: ', wrapper)
+    const img = wrapper.querySelector('img');
+
+    const data = {
+        image: img.getAttribute('src'),
+        id: parseInt(wrapper.id),
+        accepted: true,
+    }
+
+    isFetchAccepted(data)
 }
 const notOk = (e) => {
     const wrapper = e.target.parentNode.closest('.pending-image')
     console.log('notOk: ', wrapper)
+    const img = wrapper.querySelector('img');
+
+    const data = {
+        image: img.getAttribute('src'),
+        id: parseInt(wrapper.id),
+        accepted: false,
+    }
+
+    isFetchAccepted(data)
+}
+
+const isFetchAccepted = (data) => {
+    console.log(data)
+
+    fetch(urlPost, {method: 'post', body: JSON.stringify(data)})
+    admin();
 }
 
 admin();
