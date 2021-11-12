@@ -6,6 +6,15 @@ const upload = () => {
     const filename = document.querySelector('.js-filename');
     const postUrl = 'https://localhost:7093/image/TestImage';
 
+    const notAllowed = [
+        "adidas",
+        "puma",
+        "reabok",
+        "bird",
+        "underarmor",
+        "billabong"
+    ]
+
     uploadBtn.setAttribute('disabled', true)
 
     fileInput.addEventListener("change", (ev) => {
@@ -29,7 +38,9 @@ const upload = () => {
                         method: 'POST',
                         body: data
                     }).then((res) => {
-                        if(res.accepted) {
+                        const hasNotAllowed = res.tags.some(item => notAllowed.includes(item));
+
+                        if(!hasNotAllowed) {
                             image.src = evt.target.result;
                             uploadBtn.removeAttribute('disabled', true)
                             filename.innerHTML = 'Screen Shot 2017-07-29 at 15.54.25.png';
